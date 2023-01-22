@@ -1,0 +1,20 @@
+.contact {
+    width: 70%;
+}
+
+input, textarea {
+    background: rgb(237,237,237);
+}
+input {
+    padding: .5rem;
+}
+textarea {
+    padding: 1rem;
+}
+
+.faqbutton {
+    width: 25%;
+    border: none;
+    border-radius: 3px;
+    padding: 5px;
+}

@@ -75,7 +75,7 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="todo title"
+                label="Todo title"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.firstName}

@@ -37,12 +37,23 @@ const deleteToDo = (toDoId) => {
 }
 
 
-const editToDo = (toDoId) => {
+const editToDo = (toDoId, text, description, emergency) => {
+    let body = {"_id": toDoId};
+    if (text !== ""){
+        body["text"] = text;
+    }
+    if (description!== ""){
+        body["description"] = description;
+    }
+    if (emergency !== ""){
+        body["emergency"] = emergency;
+    }
+    console.log(body)
     axios
-    .post(`${baseurl}/update`,{_id:toDoId })
+    .post(`${baseurl}/update`,body)
     .then((data) => {console.log(data);
     })
     .catch((err) => console.log(err))
 }
 
-export {getAllToDo, addToDO, updateToDoStatus, deleteToDo}
+export {getAllToDo, addToDO, updateToDoStatus, deleteToDo, editToDo}
