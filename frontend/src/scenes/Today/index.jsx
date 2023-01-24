@@ -4,7 +4,7 @@ import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { useState, useEffect } from "react"
-import { getAllToDo, updateToDoStatus, deleteToDo, editToDo } from "../../utilis/handleapi";
+import { getAllToDo, updateToDoStatus, deleteToDo, editToDo, getTodayToDo } from "../../utilis/handleapi";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -13,15 +13,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-const Contacts = () => {
+const Today = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [reset, setReset] = useState(false);
 
   const dateFormatter = (params) => {
-    const start_date = new Date(params.value[0]);
-    return start_date.toISOString().split('T')[0]
+    const start_date = new Date(params.value);
+    return start_date.toISOString().split('T')[1].split(":")[0] + ':' + start_date.toISOString().split('T')[1].split(":")[1]
   };
 
   const columns = [
@@ -50,7 +50,7 @@ const Contacts = () => {
     },
     {
       field: "time_period",
-      headerName: "Date",
+      headerName: "Time",
       valueFormatter: dateFormatter,
       type: 'date',
       flex: 1,
@@ -66,7 +66,8 @@ const Contacts = () => {
   const [toDo, setToDo] = useState([])
 
   useEffect(()=>{
-    getAllToDo(setToDo);
+    // getAllToDo(setToDo);
+    getTodayToDo(setToDo)
   },[reset])
 
   const [select, setSelectionModel] = useState([]);
@@ -121,9 +122,9 @@ const Contacts = () => {
     <GridFooterContainer>
       {/* Add what you want here */}
       <div style={{paddingLeft: '5px', gap:'10px'}}>
-        <Button style = {{backgroundColor:colors.greenAccent[500],fontWeight:'500',border:'none',marginLeft:'5px', display: select.length ===0 ?'none' : 'inline-flex'}} onClick={()=>{handleClickOpenDelete();}}> Delete</Button>
-        <Button style = {{backgroundColor:colors.greenAccent[500],fontWeight:'500',border:'none',marginLeft:'5px', display: select.length ===1 ?'inline-flex' : 'none'}} onClick={()=>{handleClickOpenEdit();}}> Edit</Button>
-        <Button style = {{backgroundColor:colors.greenAccent[500],fontWeight:'500',border:'none',marginLeft:'5px', display: select.length ===0 ?'none' : 'inline-flex'}} onClick={()=>{updateStatus()}}> Complete</Button>
+        <Button style = {{backgroundColor:colors.greenAccent[500],fontWeight:'500',border:'none',marginLeft:'5px', display: select.length ===0 ?'none' : 'inline-flex'}} onClick={handleClickOpenDelete}> Delete</Button>
+        <Button style = {{backgroundColor:colors.greenAccent[500],fontWeight:'500',border:'none',marginLeft:'5px', display: select.length ===1 ?'inline-flex' : 'none'}} onClick={handleClickOpenEdit}> Edit</Button>
+        <Button style = {{backgroundColor:colors.greenAccent[500],fontWeight:'500',border:'none',marginLeft:'5px', display: select.length ===0 ?'none' : 'inline-flex'}} onClick={updateStatus}> Complete</Button>
       </div>
       
       <GridFooter sx={{
@@ -136,8 +137,8 @@ const Contacts = () => {
   return (
     <><Box m="20px">
       <Header
-        title="Todos"
-        subtitle="List of All Todos So Far" />
+        title="Today's Todos"
+        subtitle="List of Today's Todos" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -255,7 +256,7 @@ const Contacts = () => {
           <Button onClick={()=>{
             handleCloseEdit();
             editToDo(select,newTitleValue, newDesValue, newUrgentValue);
-            setReset(!reset)}}>Edit</Button>
+            setReset(!reset);}}>Edit</Button>
           <Button onClick={handleCloseEdit}>Cancel</Button>
         </DialogActions>
       </Dialog>
@@ -264,7 +265,7 @@ const Contacts = () => {
 };
 
 
+export default Today;
 
 
 
-export default Contacts;
