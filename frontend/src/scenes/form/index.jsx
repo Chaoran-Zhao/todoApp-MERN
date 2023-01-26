@@ -16,7 +16,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
-
+import { BlockPicker, CirclePicker, } from 'react-color';
 
 const Form = () => {
   const theme = useTheme();
@@ -43,7 +43,9 @@ const Form = () => {
   };
 
   const [text, setText] = useState("")
-  const [reset, setReset] = useState(false)
+  const [reset, setReset] = useState(false);
+  const [blockPickerColor, setBlockPickerColor] = useState("#0000FF");
+  const [circleColor, setCircleColor] = useState("#FFF");
 
   const [behaviour, setBehaviour] = useState('');
 
@@ -76,7 +78,7 @@ const Form = () => {
       <Header title="Add Todos" subtitle="Create a New Todo Item" />
 
       <Formik
-        onSubmit={(values, { resetForm }) => {handleFormSubmit();}}
+        onSubmit={handleFormSubmit}
         initialValues={initialValues}
         validationSchema={checkoutSchema}
       >
@@ -101,8 +103,8 @@ const Form = () => {
                 onChange={handleChange}
                 value={values.firstName}
                 name="text"
-                error={!!touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
+                error={!!touched.text && !!errors.text}
+                helperText={touched.text && errors.text}
                 sx={{ gridColumn: "span 4" }} />
               <TextField
                 fullWidth
@@ -113,9 +115,10 @@ const Form = () => {
                 onChange={handleChange}
                 value={values.email}
                 name="description"
-                error={!!touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
+                error={!!touched.description && !!errors.description}
+                helperText={touched.description && errors.description}
                 sx={{ gridColumn: "span 4" }} />
+
               <FormControl sx={{ gridColumn: "span 2" }}>
                 <InputLabel id="demo-simple-select-label">Behaviour</InputLabel>
                 <Select
@@ -141,8 +144,8 @@ const Form = () => {
                 onChange={handleChange}
                 value={values.lastName}
                 name="groupName"
-                error={!!touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
+                error={!!touched.groupName && !!errors.groupName}
+                helperText={touched.groupName && errors.groupName}
                 sx={{ gridColumn: "span 2" }}
                 disabled={behaviour === 10 ? true : false} />
 
@@ -151,20 +154,21 @@ const Form = () => {
                 variant="filled"
                 type="number"
                 label="Urgency (scale of 10)"
+                InputProps={{ inputProps: { min: 0, max: 10 } }}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.contact}
                 name="Emergency-level"
-                error={!!touched.contact && !!errors.contact}
-                helperText={touched.contact && errors.contact}
+                error={!!touched["Emergency-level"] && !!errors["Emergency-level"]}
+                helperText={touched["Emergency-level"] && errors["Emergency-level"]}
                 sx={{ gridColumn: "span 2" }} />
               <FormControlLabel
                 value="start"
                 control={<Checkbox
-                  checked={checked}
-                  onChange={handlenotificationChange}
-                  style={{ color: colors.greenAccent[500] }}
-                  inputProps={{ 'aria-label': 'controlled' }} />}
+                checked={checked}
+                onChange={handlenotificationChange}
+                style={{ color: colors.greenAccent[500] }}
+                inputProps={{ 'aria-label': 'controlled' }} />}
                 label="In App Notification"
                 labelPlacement="end"
                 sx={{ gridColumn: "span 2" }} />
@@ -192,6 +196,26 @@ const Form = () => {
                   } }
                   sx={{ gridColumn: "span 4" }} />
               </LocalizationProvider>
+
+              {/*  assign a color to it */}
+              <span>Select a color: {circleColor}
+              {/* <BlockPicker
+                color={blockPickerColor}
+                onChange={(color) => {
+                  setBlockPickerColor(color.hex);
+                }}
+               /> */}
+              <CirclePicker
+            color={circleColor}
+            colors={["	#FF0000", "#00FF00", "#0000FF"]} 
+            // add more colors
+            onChange={(e) => setCircleColor(e.hex)}
+          />
+
+               </span>
+
+               
+              
 
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
@@ -223,12 +247,8 @@ const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-  text: yup.string().required('name is required'),
-  "Emergency-level": yup.number().typeError('age must be a number').required('name is required'),
-  // contact: yup
-  //   .string()
-  //   .matches(phoneRegExp, "Phone number is not valid")
-  //   .required("required"),
+  text: yup.string().required('title is required'),
+  "Emergency-level": yup.number().typeError('age must be a number').required('Urgency is required'),
 });
 const initialValues = {
   text: "",
