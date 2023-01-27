@@ -1,11 +1,12 @@
-const ToDoModel = require('../models/ToDoModel')
+// const ToDoModel = require('../models/ToDoModel')
+import ToDoModel from '../models/ToDoModel.js'
 
-module.exports.getToDo = async(req,res) => {
+export const getToDo = async(req,res) => {
     const toDo = await ToDoModel.find();
     res.send(toDo)
 }
 
-module.exports.saveToDo = async(req,res) => {
+export const saveToDo = async(req,res) => {
     const { text, description, group, behaviour, status, notification, emergency, time_period } = req.body
 
     ToDoModel
@@ -18,7 +19,7 @@ module.exports.saveToDo = async(req,res) => {
     
 }
 // edit information
-module.exports.updateToDo = async(req,res) => {
+export const updateToDo = async(req,res) => {
     const {_id, text, description, group, behaviour, status, notification, emergency, time_period} = req.body
     ToDoModel
     .findByIdAndUpdate(_id,{ text, description, group, behaviour, status, notification, emergency, time_period })
@@ -27,7 +28,7 @@ module.exports.updateToDo = async(req,res) => {
 }
 
 // update status
-module.exports.updateStatus = async(req,res) => {
+export const updateStatus = async(req,res) => {
     const {_id, status} = req.body
     ToDoModel
     .findByIdAndUpdate(_id,{ status })
@@ -36,7 +37,7 @@ module.exports.updateStatus = async(req,res) => {
 }
 
 // delete todo
-module.exports.deleteToDo = async(req,res) => {
+export const deleteToDo = async(req,res) => {
     const {_id} = req.body
     ToDoModel
     .findByIdAndDelete(_id)

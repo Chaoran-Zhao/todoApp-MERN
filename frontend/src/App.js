@@ -12,6 +12,7 @@ import Line from "./scenes/line";
 import Pie from "./scenes/pie";
 import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
+import Register from "./scenes/auth/register";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
@@ -20,16 +21,24 @@ function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
 
+
+  let pathName = window.location.pathname
+  let arr = pathName.toString().split("/");
+  let currentPath = arr[arr.length-1];
+
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          <Sidebar isSidebar={isSidebar} />
+          {currentPath.length>0 ?<Sidebar isSidebar={isSidebar} />: <></> }
           <main className="content">
+            {/* {currentPath.length>0 ?<Topbar setIsSidebar={setIsSidebar} /> :<></>} */}
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<Register />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/today" element={<Today />} />
               <Route path="/alltodos" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />

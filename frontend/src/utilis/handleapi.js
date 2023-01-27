@@ -2,7 +2,6 @@ import axios from 'axios'
 import { message } from 'antd';
 import 'antd/dist/reset.css';
 
-
 // helper function
 function convertUTCDateToLocalDate(date) {
     var newDate = new Date(date.getTime() - date.getTimezoneOffset()*60*1000);
@@ -15,7 +14,7 @@ const  baseurl = "http://localhost:5000"
 
 const getAllToDo = (setToDo) => {
     axios
-    .get(baseurl)
+    .get(`${baseurl}/todos`)
     .then(({data}) => {
         console.log('data-->', data);
         setToDo(data);
@@ -26,7 +25,7 @@ const getAllToDo = (setToDo) => {
 
 const getTodayToDo = (setToDo) => {
     axios
-    .get(baseurl)
+    .get(`${baseurl}/todos`)
     .then(({data}) => {
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
@@ -55,7 +54,7 @@ const getTodayToDo = (setToDo) => {
 const addToDO = (text, description, group, behaviour, status, notification, emergency, time_period,navigate) => {
     
     axios
-    .post(`${baseurl}/save`,{text, description, group, behaviour, status, notification, emergency, time_period })
+    .post(`${baseurl}/todos/save`,{text, description, group, behaviour, status, notification, emergency, time_period })
     .then((data) => {console.log(data);
         message.success('The new todo has been added');
         navigate("/alltodos"); // NOT A GOOD OPTION AS WELL< compare with the refresh one later
@@ -68,7 +67,7 @@ const addToDO = (text, description, group, behaviour, status, notification, emer
 
 const updateToDoStatus = (toDoId,status) => {
     axios 
-    .post(`${baseurl}/status`,{_id:toDoId,status:status})
+    .post(`${baseurl}/todos/status`,{_id:toDoId,status:status})
     .then((data) => {console.log(data);
         message.success('The status has been updated');
     })
@@ -77,7 +76,7 @@ const updateToDoStatus = (toDoId,status) => {
 
 const deleteToDo = (toDoId) => {
     axios
-    .post(`${baseurl}/delete`,{_id:toDoId })
+    .post(`${baseurl}/todos/delete`,{_id:toDoId })
     .then((data) => {console.log(data);
         message.success('The todo has been deleted');
     })
@@ -99,7 +98,7 @@ const editToDo = (toDoId, text, description, emergency) => {
     }
     console.log(body)
     axios
-    .post(`${baseurl}/update`,body)
+    .post(`${baseurl}/todos/update`,body)
     .then((data) => {console.log(data);
         message.success('The todo has been updated');
     })
@@ -107,4 +106,35 @@ const editToDo = (toDoId, text, description, emergency) => {
         message.error(`${err.message} has occurred`);})
 }
 
-export {getAllToDo, addToDO, updateToDoStatus, deleteToDo, editToDo, getTodayToDo}
+
+
+
+// auth api
+
+const registerUser = (formData) =>{
+    console.log(formData)
+    // const saveImage =  {
+    //     userName,
+    //     password,
+    //     profileImg,}
+    // console.log(saveImage)
+    // axios
+    // .post(`${baseurl}/auth/register`,formData) 
+    // .then((data) => {console.log(data);
+    //     message.success('The user has been registered');
+    // })
+    // .catch((err) => {console.log(err);
+    //     message.error(`${err.message} has occurred`);})
+
+    fetch(`${baseurl}/auth/register`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+    })
+        .then((res) => console.log(res))
+        .catch((err) =>console.log("Error occured", err));
+}
+
+export {getAllToDo, addToDO, updateToDoStatus, deleteToDo, editToDo, getTodayToDo, registerUser}
