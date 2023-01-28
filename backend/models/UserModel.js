@@ -2,17 +2,21 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-   userName: { // todos
+   userName: { 
         type: String,
-        require: true
+        required: true,
+        min: 2,
+        max: 30,
+        unique: true,
     },
     password: {
         type: String,
-        require: false
+        required: false,
+        min: 5,
     },
     profileImg: {
         type: String,
-        require: false,
+        required: false,
         default: ""
     }
     

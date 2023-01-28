@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const todoSchema = new mongoose.Schema({
     text: { // todos
         type: String,
-        require: true
+        required: true
     },
     description: {
         type: String,

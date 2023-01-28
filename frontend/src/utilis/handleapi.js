@@ -111,30 +111,6 @@ const editToDo = (toDoId, text, description, emergency) => {
 
 // auth api
 
-const registerUser = (formData) =>{
-    console.log(formData)
-    // const saveImage =  {
-    //     userName,
-    //     password,
-    //     profileImg,}
-    // console.log(saveImage)
-    // axios
-    // .post(`${baseurl}/auth/register`,formData) 
-    // .then((data) => {console.log(data);
-    //     message.success('The user has been registered');
-    // })
-    // .catch((err) => {console.log(err);
-    //     message.error(`${err.message} has occurred`);})
 
-    fetch(`${baseurl}/auth/register`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-    })
-        .then((res) => console.log(res))
-        .catch((err) =>console.log("Error occured", err));
-}
 
-export {getAllToDo, addToDO, updateToDoStatus, deleteToDo, editToDo, getTodayToDo, registerUser}
+export {getAllToDo, addToDO, updateToDoStatus, deleteToDo, editToDo, getTodayToDo}

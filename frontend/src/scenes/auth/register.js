@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { registerUser } from "../../utilis/handleapi";
 
 const Register = () => {
   
@@ -22,8 +21,8 @@ const Register = () => {
       method: 'post',
       body
     })
-    const res = await response
-    // console.log(re)
+    const res = await response.text()
+    console.log(res)
   }
 
   return (
@@ -35,9 +34,7 @@ const Register = () => {
                 Welcome to TodoApp
             </h3>
           </a>
-        </div>
-        {/* <form action='http://localhost:5000/auth/register' method="POST" encType='multipart/form-data'  target="frameName"> */}
-        
+        </div>  
           <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
             <div>
               <label
@@ -52,10 +49,11 @@ const Register = () => {
                   type="text"
                   name="userName"
                   className="block w-full mt-1 text-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  onChange={(event)=>{setName(event.target.value);}}
+                  onChange={(event)=>{setName(event.target.value); }}
                 />
-              </div>
+              </div>  
             </div>
+            
 
               <div className="mt-4">
                 <label
@@ -74,7 +72,7 @@ const Register = () => {
                   />
                 </div>
               </div>
-              {/* <div className="mt-4">
+              <div className="mt-4">
                 <label
                   htmlFor="password_confirmation"
                   className="block text-sm font-medium text-gray-700 undefined"
@@ -89,7 +87,7 @@ const Register = () => {
                     onChange={(event)=>{setCpassword(event.target.value);}}
                   />
                 </div>
-              </div> */}
+              </div>
               <div className="mt-4">
                 <label
                   htmlFor="password_confirmation"
@@ -115,20 +113,22 @@ const Register = () => {
                     Already registered?
                 </a>
                 <button
-                  type="submit"
+                  type="button"
                   className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
                   onClick={handleSubmit}
                 >
                   Register
                 </button>
               </div>
-          
       </div>
-    {/* </form> */}
-    <iframe src="" frameBorder="0" name="frameName" title='placeholder'></iframe>
     </div>
   </div>
   )
 }
+
+
+
+
+
 
 export default Register
