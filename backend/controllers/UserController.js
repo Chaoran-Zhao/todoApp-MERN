@@ -15,15 +15,14 @@ export const Register = async(req,res) => {
 
   saveImg
     .save()
-    .then((res) => {
+    .then(() => {
       console.log("image is saved");
       console.log(res)
       res.send('image is saved')
-
     })
     .catch((err) => {
       console.log(err, "error has occurred");
-      res.send('error')
+      res.send(err.message);
     });
     
 }
