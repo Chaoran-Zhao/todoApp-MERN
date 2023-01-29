@@ -13,28 +13,26 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async() => {
-    const body = new FormData();
-    body.append('userName', name)
-    body.append('password', password)
-    const file = document.getElementById('registerImg').files[0]
-    body.append('picture', file)
-    for (var data of body) {
-      console.log(data);
-    }
     const Valid = checkValid();
-    // if (Valid === false){
-    //   const response = await fetch('http://localhost:5000/auth/register', {
-    //     method: 'post',
-    //     body
-    //   })
-    //   const res = await response.text()
-    //   console.log(res)
-    //   if (res === 'image is saved'){
-    //     navigate('/dashboard')
-    //   }else {
-    //     message.error(res)
-    //   }
-    // }
+    if (Valid === false){
+      const response = await fetch('http://localhost:5000/auth/login', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body:JSON.stringify({
+            "userName": name,
+            "password": password,
+        }),
+      })
+      const resu = await response.json()
+      
+      console.log(resu.response)
+      if (resu.response==='logged-in'){
+        navigate('/dashboard')
+        localStorage.setItem('token', resu.token)
+      }else {
+        message.error(resu)
+      }
+    }
   }
 
   const checkValid = () => {
@@ -132,8 +130,7 @@ const Login = () => {
               <div className="flex items-center justify-end mt-4">
                 <a
                   className="text-sm text-gray-600 underline hover:text-gray-900"
-                  href="/dashboard"
-                >
+                  href="/">
                     Havn't registered?
                 </a>
                 <button

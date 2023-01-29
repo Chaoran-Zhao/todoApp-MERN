@@ -6,7 +6,6 @@ import mongoose from "mongoose";
 import cors from "cors";
 import multer from "multer";
 import dotenv from "dotenv";
-import fs from "fs"
 import bodyParser from "body-parser";
 
 import { fileURLToPath } from "url";
