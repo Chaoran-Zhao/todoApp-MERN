@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link  } from "react-router-dom";
@@ -41,6 +41,23 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+
+  const [picturePath, setPath] = useState('')
+
+  const token = localStorage.getItem('token')
+
+  const getUserImg = async () => {
+    const response = await fetch(`http://localhost:5000/auth/abc`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await response.json();
+    console.log(data)
+  };
+
+  useEffect(() => {
+    getUserImg()
+  }, []); 
 
   return (
     <Box
@@ -97,8 +114,9 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/user.png`}
+                  src={'http://localhost:5000/assets/1674998849860images.png'}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
+                  // onClick={getUserImg}
                 />
               </Box>
               <Box textAlign="center">

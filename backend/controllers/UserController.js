@@ -52,3 +52,17 @@ export const Login  = async(req,res) => {
     res.send("error occured")
   }
 }
+
+
+export const getUser = async (req, res) => {
+  try {
+    const userName  = req.params['name'];
+    console.log(req.params['name'])
+    console.log(userName)
+    const user = await UserModel.findOne({userName: userName});
+    console.log(user)
+    res.status(200).json(user);
+  } catch (err) {
+    res.send("error occured")
+  }
+};
