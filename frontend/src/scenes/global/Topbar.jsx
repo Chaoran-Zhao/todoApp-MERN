@@ -10,7 +10,8 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setLogout } from "../../state/index";
 
 const Topbar = () => {
   const theme = useTheme();
@@ -18,10 +19,12 @@ const Topbar = () => {
   const colorMode = useContext(ColorModeContext);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const Logout = () => {
     console.log('Logging out ...');
     localStorage.removeItem('token');
+    dispatch(setLogout())
     navigate('/')
   }
 

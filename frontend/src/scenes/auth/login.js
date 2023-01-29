@@ -3,6 +3,8 @@ import { message } from 'antd';
 import 'antd/dist/reset.css';
 import { useNavigate } from "react-router-dom";
 import "./style.css"
+import { useDispatch } from "react-redux";
+import { setLogin } from "../../state/index";
 
 const Login = () => {
   
@@ -11,6 +13,7 @@ const Login = () => {
 
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async() => {
     const Valid = checkValid();
@@ -27,6 +30,12 @@ const Login = () => {
       
       console.log(resu.response)
       if (resu.response==='logged-in'){
+        dispatch(
+          setLogin({
+            user: name,
+            token: resu.token,
+          })
+        ); // upate the state;
         navigate('/dashboard')
         localStorage.setItem('token', resu.token)
       }else {
