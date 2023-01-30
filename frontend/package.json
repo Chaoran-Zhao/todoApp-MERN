@@ -26,6 +26,7 @@
     "antd": "^5.1.6",
     "axios": "^1.2.3",
     "chart.js": "^3.9.1",
+    "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "date-fns-timezone": "^0.1.4",
     "formik": "^2.2.9",

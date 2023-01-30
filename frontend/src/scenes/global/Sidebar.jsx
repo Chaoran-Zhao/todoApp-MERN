@@ -15,6 +15,7 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -41,17 +42,23 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const loginUser = useSelector((state) => state.user);
+  const [profile, setProfile] = useState('')
 
   const [picturePath, setPath] = useState('')
+
+
 
   const token = localStorage.getItem('token')
 
   const getUserImg = async () => {
-    const response = await fetch(`http://localhost:5000/auth/abc`, {
+    console.log(loginUser)
+    const response = await fetch(`http://localhost:5000/auth/${loginUser}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
+    setProfile(data.profileImg)
     console.log(data)
   };
 
@@ -114,7 +121,8 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={'http://localhost:5000/assets/1674998849860images.png'}
+                  src={`http://localhost:5000/${profile}`}
+
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                   // onClick={getUserImg}
                 />
@@ -126,11 +134,11 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  User Name
+                  {loginUser}
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
+                {/* <Typography variant="h5" color={colors.greenAccent[500]}>
                   VP Fancy Admin
-                </Typography>
+                </Typography> */}
               </Box>
             </Box>
           )}

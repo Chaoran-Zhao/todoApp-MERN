@@ -12,6 +12,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { useDispatch, useSelector } from "react-redux";
+
 
 const Contacts = () => {
   const theme = useTheme();
@@ -23,23 +25,24 @@ const Contacts = () => {
     const start_date = new Date(params.value[0]);
     return start_date.toISOString().split('T')[0]
   };
+  const loginUser = useSelector((state) => state.user);
 
   const columns = [
     {
       field: "text",
       headerName: "Todo",
-      flex: 1,
+      flex: 1.2,
       cellClassName: "name-column--cell",
     },
     {
-      field: "group",
-      headerName: "Behaviour",
-      flex: 1,
+      field: "color",
+      headerName: "Color",
+      flex: 0.5,
     },
     {
       field: "emergency",
       headerName: "Emergency-level",
-      flex: 1,
+      flex: 0.5,
     },
     {
       field: "description",
@@ -66,7 +69,7 @@ const Contacts = () => {
   const [toDo, setToDo] = useState([])
 
   useEffect(()=>{
-    getAllToDo(setToDo);
+    getAllToDo(setToDo,loginUser);
   },[reset])
 
   const [select, setSelectionModel] = useState([]);

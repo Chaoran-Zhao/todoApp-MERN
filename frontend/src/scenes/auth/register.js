@@ -1,8 +1,10 @@
-import React, { useState} from 'react'
+import React, { useEffect, useState} from 'react'
 import { message } from 'antd';
 import 'antd/dist/reset.css';
 import { useNavigate } from "react-router-dom";
 import "./style.css"
+import { useDispatch, useSelector } from "react-redux";
+import { setLogout } from "../../state/index";
 
 const Register = () => {
   
@@ -12,6 +14,7 @@ const Register = () => {
   const [profile, setProfile] = useState('');
 
   const navigate = useNavigate();
+    const dispatch = useDispatch();
 
   const handleSubmit = async() => {
     const body = new FormData();
@@ -31,7 +34,7 @@ const Register = () => {
       const res = await response.text()
       console.log(res)
       if (res === 'image is saved'){
-        navigate('/dashboard')
+        navigate('/login')
       }else {
         message.error(res)
       }
@@ -105,6 +108,11 @@ const Register = () => {
       document.getElementById('registerImg').style.border = 'none'
     }
   }
+
+  useEffect(() => {
+    localStorage.removeItem('token');
+    dispatch(setLogout())
+  },[]);
 
   return (
     <div>

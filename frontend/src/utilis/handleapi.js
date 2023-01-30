@@ -12,18 +12,30 @@ function convertUTCDateToLocalDate(date) {
 
 const  baseurl = "http://localhost:5000"
 
-const getAllToDo = (setToDo) => {
+const getAllToDo = (setToDo,loginUser) => {
     axios
     .get(`${baseurl}/todos`)
     .then(({data}) => {
         console.log('data-->', data);
-        setToDo(data);
+        let userTodos = [];
+        data.forEach(element => {
+          if (element.userName === loginUser)  {
+            userTodos.push(element)
+          }else{
+            element.attendent.forEach(att => {
+                if (att === loginUser){
+                    userTodos.push(element)
+                }
+            });
+          }
+        });
+        setToDo(userTodos);
     })
     .catch((err) => {console.log(err);
     message.error(`${err.message} has occurred`);})
 }
 
-const getTodayToDo = (setToDo) => {
+const getTodayToDo = (setToDo, loginUser) => {
     axios
     .get(`${baseurl}/todos`)
     .then(({data}) => {
@@ -44,25 +56,38 @@ const getTodayToDo = (setToDo) => {
                 today_data.push(replace)
             }
         });
-        setToDo(today_data);
+
+        let userTodos = [];
+        today_data.forEach(e => {
+          if (e.userName === loginUser)  {
+            userTodos.push(e)
+          }else{
+            e.attendent.forEach(att => {
+                if (att === loginUser){
+                    userTodos.push(e)
+                }
+            });
+          }
+        });
+        console.log('data-->',userTodos)
+        setToDo(userTodos);
         
     })
     .catch((err) => {console.log(err);
         message.error(`${err.message} has occurred`);})
 }
 
-const addToDO = (text, description, group, behaviour, status, notification, emergency, time_period,navigate) => {
+const addToDO = (userName,text, description, status, notification, emergency, time_period,color, attendent,navigate) => {
     
     axios
-    .post(`${baseurl}/todos/save`,{text, description, group, behaviour, status, notification, emergency, time_period })
+    .post(`${baseurl}/todos/save`,{userName, text, description, status, notification, emergency, time_period, color, attendent })
     .then((data) => {console.log(data);
         message.success('The new todo has been added');
         navigate("/alltodos"); // NOT A GOOD OPTION AS WELL< compare with the refresh one later
     })
     .catch((err) => {console.log(err);
         message.error(`${err.message} has occurred`);}
-    );
-    
+    ); 
 }
 
 const updateToDoStatus = (toDoId,status) => {
@@ -106,11 +131,6 @@ const editToDo = (toDoId, text, description, emergency) => {
         message.error(`${err.message} has occurred`);})
 }
 
-
-
-
 // auth api
-
-
 
 export {getAllToDo, addToDO, updateToDoStatus, deleteToDo, editToDo, getTodayToDo}

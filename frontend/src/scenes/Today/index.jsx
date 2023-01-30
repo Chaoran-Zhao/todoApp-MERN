@@ -12,12 +12,18 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { useDispatch, useSelector } from "react-redux";
+import clsx from 'clsx';
+import "./style.css"
+
 
 const Today = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [reset, setReset] = useState(false);
+
+  const loginUser = useSelector((state) => state.user);
 
   const dateFormatter = (params) => {
     const start_date = new Date(params.value);
@@ -28,18 +34,41 @@ const Today = () => {
     {
       field: "text",
       headerName: "Todo",
-      flex: 1,
+      flex: 1.2,
       cellClassName: "name-column--cell",
     },
     {
-      field: "group",
-      headerName: "Behaviour",
-      flex: 1,
+      field: "color",
+      headerName: "Color",
+      flex: 0.5,
+      // cellClassName: (params) => {
+      //   if (params.value == null) {
+      //     return '';
+      //   }
+
+      //   return clsx('super-app', {
+      //     green: params.value === '#00ff00',
+      //     red: params.value === '#ff0000',
+      //     white: params.value === '#FFF',
+      //     blue: params.value === '#0000ff',
+      //   });
+      // },
+      renderCell: (params) => {
+        if (params.value === '#00ff00'){
+          return <span class="dot" style={{backgroundColor: '#00ff00'}}></span>
+        } else if(params.value === '#ff0000') {
+          return <span class="dot" style={{backgroundColor: '#ff0000'}}></span>
+        } else if (params.value === '#FFF') {
+          return <span class="dot" style={{backgroundColor: '#FFF'}}></span>
+        } else {
+          return <span class="dot" style={{backgroundColor: '#0000ff'}}></span>
+        }
+      }
     },
     {
       field: "emergency",
       headerName: "Emergency-level",
-      flex: 1,
+      flex: 0.5,
     },
     {
       field: "description",
@@ -67,7 +96,7 @@ const Today = () => {
 
   useEffect(()=>{
     // getAllToDo(setToDo);
-    getTodayToDo(setToDo)
+    getTodayToDo(setToDo, loginUser)
   },[reset])
 
   const [select, setSelectionModel] = useState([]);
@@ -168,6 +197,26 @@ const Today = () => {
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
             color: `${colors.grey[100]} !important`,
+          },
+          '& .super-app.red': {
+          backgroundColor: '#ff0000',
+          color: '#ff0000',
+          fontWeight: '600',
+          },
+          '& .super-app.green': {
+            backgroundColor: '#00ff00',
+            color: '#00ff00',
+            fontWeight: '600',
+          },
+          '& .super-app.blue': {
+            backgroundColor: '#0000ff',
+            color: '#0000ff',
+            fontWeight: '600',
+          },
+          '& .super-app.white': {
+            backgroundColor: '#FFF',
+            color: '#FFF',
+            fontWeight: '600',
           },
         }}
       >

@@ -7,16 +7,14 @@ export const getToDo = async(req,res) => {
 }
 
 export const saveToDo = async(req,res) => {
-    const { text, description, group, behaviour, status, notification, emergency, time_period } = req.body
-
+    const { userName, text, description, group, behaviour, status, notification, emergency, time_period, color,attendent } = req.body
     ToDoModel
-    .create({ text, description, group, behaviour, status, notification, emergency, time_period })
+    .create({ userName, text, description, group, behaviour, status, notification, emergency, time_period,color,attendent })
     .then((data) => {
         console.log("added successfully...");
         console.log(data);
         res.send(data)
     })
-    
 }
 // edit information
 export const updateToDo = async(req,res) => {

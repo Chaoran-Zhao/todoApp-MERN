@@ -1,10 +1,10 @@
-import React, { useState} from 'react'
+import React, { useEffect, useState} from 'react'
 import { message } from 'antd';
 import 'antd/dist/reset.css';
 import { useNavigate } from "react-router-dom";
 import "./style.css"
 import { useDispatch } from "react-redux";
-import { setLogin } from "../../state/index";
+import { setLogin, setLogout } from "../../state/index";
 
 const Login = () => {
   
@@ -81,7 +81,10 @@ const Login = () => {
     }
   }
 
-
+  useEffect(() => {
+    localStorage.removeItem('token');
+    dispatch(setLogout())
+  },[]);
 
   return (
     <div>

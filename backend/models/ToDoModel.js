@@ -2,43 +2,45 @@
 import mongoose from "mongoose";
 
 const todoSchema = new mongoose.Schema({
+    userName: {
+        type: String,
+        required: false,
+    },
     text: { // todos
         type: String,
         required: true
     },
     description: {
         type: String,
-        require: false
-    },
-    behaviour: { // Group/Individual
-        type: String,
-        require: true
-    },
-    group: { // Group Name/ Group Id
-        type: String,
-        require: false,
-        default: 'none'
+        required: false
     },
     status: { // Pending/Complete
         type: String,
-        require: true,
+        required: true,
         default: 'Pending',
     },
     notification: { // true/false
         type: Boolean,
-        require: true,
+        required: true,
         default: false,
     },
     emergency: { // on the scale of 10
         type: Number,
-        require: false,
+        required: false,
         default: 0,
     },
     time_period: { // [start-dare-time, end-date-time]
-        require: true,
+        required: true,
         type: Array,
+    },
+    color: {
+        required: false,
+        type: String,
+    },
+    attendent: {
+        type: Array,
+        required: false
     }
-
 })
 
 // module.exports = mongoose.model('ToDo', todoSchema)
