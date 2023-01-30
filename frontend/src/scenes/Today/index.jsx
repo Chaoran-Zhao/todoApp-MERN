@@ -41,27 +41,17 @@ const Today = () => {
       field: "color",
       headerName: "Color",
       flex: 0.5,
-      // cellClassName: (params) => {
-      //   if (params.value == null) {
-      //     return '';
-      //   }
-
-      //   return clsx('super-app', {
-      //     green: params.value === '#00ff00',
-      //     red: params.value === '#ff0000',
-      //     white: params.value === '#FFF',
-      //     blue: params.value === '#0000ff',
-      //   });
-      // },
       renderCell: (params) => {
         if (params.value === '#00ff00'){
-          return <span class="dot" style={{backgroundColor: '#00ff00'}}></span>
+          return <span className="dot" style={{backgroundColor: '#00ff00'}}></span>
         } else if(params.value === '#ff0000') {
-          return <span class="dot" style={{backgroundColor: '#ff0000'}}></span>
+          return <span className="dot" style={{backgroundColor: '#ff0000'}}></span>
         } else if (params.value === '#FFF') {
-          return <span class="dot" style={{backgroundColor: '#FFF'}}></span>
+          return <span className="dot" style={{backgroundColor: '#FFF'}}></span>
+        } else if (params.value === '#0000ff'){
+          return <span clasName="dot" style={{backgroundColor: '#0000ff'}}></span>
         } else {
-          return <span class="dot" style={{backgroundColor: '#0000ff'}}></span>
+          return <span clasName="dot" style={{backgroundColor: 'none'}}></span>
         }
       }
     },

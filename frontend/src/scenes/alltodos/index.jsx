@@ -13,7 +13,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from "react-redux";
-
+import "../Today/style.css"
 
 const Contacts = () => {
   const theme = useTheme();
@@ -38,6 +38,19 @@ const Contacts = () => {
       field: "color",
       headerName: "Color",
       flex: 0.5,
+      renderCell: (params) => {
+        if (params.value === '#00ff00'){
+          return <span className="dot" style={{backgroundColor: '#00ff00'}}></span>
+        } else if(params.value === '#ff0000') {
+          return <span className="dot" style={{backgroundColor: '#ff0000'}}></span>
+        } else if (params.value === '#FFF') {
+          return <span className="dot" style={{backgroundColor: '#FFF'}}></span>
+        } else if (params.value === '#0000ff'){
+          return <span clasName="dot" style={{backgroundColor: '#0000ff'}}></span>
+        } else {
+          return <span clasName="dot" style={{backgroundColor: 'none'}}></span>
+        }
+      }
     },
     {
       field: "emergency",

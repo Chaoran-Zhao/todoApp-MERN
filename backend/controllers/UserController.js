@@ -37,11 +37,11 @@ export const Login  = async(req,res) => {
     console.log(user)
     // user not exist
     if (!user) {
-      res.send("User does not exist. ")
+      res.status(500).json("User does not exist. ")
     }else{
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {// incorrect password
-        res.send("Invalid credentials. ")
+        res.status(500).json("Invalid credentials. ")
       }else{      
         const token = jwt.sign({ id: res.userName }, 'shhhhh')
         delete res.password
@@ -49,7 +49,7 @@ export const Login  = async(req,res) => {
       }
     }
   }catch(err){
-    res.send("error occured")
+    res.status(500).json("error occured")
   }
 }
 
