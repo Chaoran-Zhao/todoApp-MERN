@@ -24,6 +24,7 @@ const Today = () => {
   const [reset, setReset] = useState(false);
 
   const loginUser = useSelector((state) => state.user);
+  
 
   const dateFormatter = (params) => {
     const start_date = new Date(params.value);
@@ -48,8 +49,8 @@ const Today = () => {
           return <span className="dot" style={{backgroundColor: '#ff0000'}}></span>
         } else if (params.value === '#FFF') {
           return <span className="dot" style={{backgroundColor: '#FFF'}}></span>
-        } else if (params.value === '#0000ff'){
-          return <span clasName="dot" style={{backgroundColor: '#0000ff'}}></span>
+        } else if (params.value === "#0000ff") {
+          return <span className="dot" style={{backgroundColor: "#0000ff"}}></span>
         } else {
           return <span clasName="dot" style={{backgroundColor: 'none'}}></span>
         }

@@ -22,14 +22,49 @@ const getAllToDo = (setToDo,loginUser) => {
           if (element.userName === loginUser)  {
             userTodos.push(element)
           }else{
-            element.attendent.forEach(att => {
+            if(element.attendent.length !== 0){
+                element.attendent.forEach(att => {
                 if (att === loginUser){
                     userTodos.push(element)
                 }
             });
+            }
+            
           }
         });
         setToDo(userTodos);
+    })
+    .catch((err) => {console.log(err);
+    message.error(`${err.message} has occurred`);})
+}
+
+const getEvent = (setAllEvent,loginUser) => {
+    axios
+    .get(`${baseurl}/todos`)
+    .then(({data}) => {
+        console.log('data-->', data);
+        let userTodos = [];
+        data.forEach(element => {
+          const dt = new Date(element.time_period[0])
+          const local_time = convertUTCDateToLocalDate(dt).toISOString()
+          const date = local_time.split('T')[0]
+          if (element.userName === loginUser)  {
+            let tmp = {id: element._id,title: element.text, date:date }
+            userTodos.push(tmp)
+          }else{
+            if(element.attendent.length !== 0){
+                element.attendent.forEach(att => {
+                if (att === loginUser){
+                    let tmp = {id: element._id,title: element.text, date:date }
+                    userTodos.push(tmp)
+                }
+            });
+            }
+            
+          }
+        });
+        setAllEvent(userTodos);
+        console.log(userTodos)
     })
     .catch((err) => {console.log(err);
     message.error(`${err.message} has occurred`);})
@@ -62,11 +97,13 @@ const getTodayToDo = (setToDo, loginUser) => {
           if (e.userName === loginUser)  {
             userTodos.push(e)
           }else{
-            e.attendent.forEach(att => {
-                if (att === loginUser){
-                    userTodos.push(e)
-                }
-            });
+            if(e.attendent !== []){
+                e.attendent.forEach(att => {
+                    if (att === loginUser){
+                        userTodos.push(e)
+                    }
+                });
+            }
           }
         });
         console.log('data-->',userTodos)
@@ -83,7 +120,10 @@ const addToDO = (userName,text, description, status, notification, emergency, ti
     .post(`${baseurl}/todos/save`,{userName, text, description, status, notification, emergency, time_period, color, attendent })
     .then((data) => {console.log(data);
         message.success('The new todo has been added');
-        navigate("/alltodos"); // NOT A GOOD OPTION AS WELL< compare with the refresh one later
+        if (navigate !== undefined){
+            navigate("/alltodos"); // NOT A GOOD OPTION AS WELL< compare with the refresh one later
+        }
+        
     })
     .catch((err) => {console.log(err);
         message.error(`${err.message} has occurred`);}
@@ -131,6 +171,9 @@ const editToDo = (toDoId, text, description, emergency) => {
         message.error(`${err.message} has occurred`);})
 }
 
+
+
+
 // auth api
 
-export {getAllToDo, addToDO, updateToDoStatus, deleteToDo, editToDo, getTodayToDo}
+export {getAllToDo, addToDO, updateToDoStatus, deleteToDo, editToDo, getTodayToDo, getEvent}
