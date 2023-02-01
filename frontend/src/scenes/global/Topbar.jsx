@@ -15,6 +15,10 @@ import Notifications from "react-notifications-menu";
 import { useState, useEffect } from "react";
 import bell1 from "../../assets/bell1.png";
 import bell2 from "../../assets/bell2.png"
+import axios from 'axios'
+import {convertUTCDateToLocalDate, differenceInDays} from '../../utilis/helper'
+
+
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -22,6 +26,7 @@ const Topbar = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const loginUser = useSelector((state) => state.user);
 
   const Logout = () => {
     console.log('Logging out ...');
@@ -30,45 +35,95 @@ const Topbar = () => {
     navigate('/')
   }
 
-  const DEFAULT_NOTIFICATION = {
-    image:
-      "https://cutshort-data.s3.amazonaws.com/cloudfront/public/companies/5809d1d8af3059ed5b346ed1/logo-1615367026425-logo-v6.png",
-    message: "Notification one.",
-    detailPage: "/alltodos",
-  };
-  const [data, setData] = useState([DEFAULT_NOTIFICATION]);
+  // const DEFAULT_NOTIFICATION = {
+  //   image:
+  //     "https://cutshort-data.s3.amazonaws.com/cloudfront/public/companies/5809d1d8af3059ed5b346ed1/logo-1615367026425-logo-v6.png",
+  //   message: "Notification one.",
+  //   detailPage: "/alltodos",
+  // };
+
+
+  const [data, setData] = useState([]);
   const [message, setMessage] = useState("");
 
-  const onClick = () => {
-    if (message.length > 0) {
-      setData([
-        ...data,
-        {
-          ...DEFAULT_NOTIFICATION,
-          message
+
+
+
+  const  baseurl = "http://localhost:5000"
+
+  const [notify, setNotify] = useState(0)
+
+   async function todayProgression() {
+    const response = await axios
+    .get(`${baseurl}/todos`)
+    .then(({data}) => {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        const today_str = yyyy+'-'+ mm+'-'+dd;
+
+        let today_data = [];
+        data.forEach(element => { 
+            const dt = new Date(element.time_period[0])
+            const local_time = convertUTCDateToLocalDate(dt).toISOString()
+            const date = local_time.split('T')[0]
+            if (date === today_str && differenceInDays(dt,today)===true){
+                let replace = {...element}
+                replace.time_period = local_time;
+                today_data.push(replace)
+            }
+        });
+
+        let userTodos = [];
+        today_data.forEach(e => {
+          if (e.userName === loginUser && e.status === 'Pending' && e.notification ===true)  {
+            userTodos.push(e)
+          }else{
+            if(e.attendent !== []){
+                e.attendent.forEach(att => {
+                    if (att === loginUser && e.status === 'Pending' && e.notification ===true){
+                        userTodos.push(e)                       
+                    }
+                });
+            }
+          }
+        });
+        console.log('data-->',userTodos)
+        let userNote = []
+        userTodos.forEach(element => {
+          let ele = {
+            image:
+              "https://cutshort-data.s3.amazonaws.com/cloudfront/public/companies/5809d1d8af3059ed5b346ed1/logo-1615367026425-logo-v6.png",
+            message: element.text,
+            detailPage: "/alltodos",
+          }
+          userNote.push(ele) }
+        );
+        console.log(userNote)
+        setNotify(userTodos)
+        if (userNote !== data){
+          setData(userNote)
         }
-      ]);
-      setMessage("");
-      alert("notification added");
-    }
-  };
+        
+    })
+    .catch((err) => {console.log(err);
+      alert.error(`${err.message} has occurred`);})
+  }
+
+  useEffect(() => {
+    // Update the document title using the browser API
+    todayProgression();
+  },[]);
+
+
 
   return (
     <Box display="flex" justifyContent="flex-start" p={2}>
-      {/* SEARCH BAR */}
-      {/* <Box
-        display="flex"
-        backgroundColor={colors.primary[400]}
-        borderRadius="3px"
-      >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-        <IconButton type="button" sx={{ p: 1 }}>
-          <SearchIcon />
-        </IconButton>
-      </Box> */}
 
       {/* ICONS */}
-      <Box display="flex">
+      <Box display="inline-flex" style={{alignItems: 'center'}}>
+        
         <Tooltip title={theme.palette.mode === "dark" ? "Light mode" : "Dark mode"}>
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
@@ -80,27 +135,22 @@ const Topbar = () => {
         </Tooltip>
 
 
-
-        <IconButton>
+        <Tooltip title="Notification">
+        <IconButton style={{paddingTop:'14px'}}>
           {/* <Badge badgeContent={4} color="secondary">
             <NotificationsOutlinedIcon onClick={onClick}/>
           </Badge> */}
           <Notifications
             data={data}
             header={{
-              title: "Notifications",
-              option: { text: "View All", onClick: () => console.log("Clicked") }
+              title: "Notifications for Todos due in an hour",
+              option: {text: '',onClick: ()=>{}}
             }}
-            markAsRead={(data) => {
-              console.log(data);
-            }}
+            cardOption = {false}
+            
             icon={theme.palette.mode === "dark" ? bell1 : bell2}
         />
-        </IconButton>
-
-        
-       
-        
+        </IconButton></Tooltip>
 
         <Tooltip title="Logout">
         <IconButton onClick={Logout}>
