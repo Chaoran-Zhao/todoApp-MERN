@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Routes, Route , BrowserRouter} from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
-import SidebarLayout from "./scenes/global/SidebarLayout";
 import Dashboard from "./scenes/dashboard";
 import Today from "./scenes/Today";
 import Invoices from "./scenes/invoices";

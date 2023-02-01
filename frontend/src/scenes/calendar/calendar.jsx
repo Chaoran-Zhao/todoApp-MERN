@@ -59,7 +59,7 @@ const Calendar = () => {
   const updateEventList = (selected, title) => {
     const calendarApi = selected.view.calendar;
     const d = new Date(selected.startStr);
-    addToDO(loginUser, title, null, 'Pending', true, null, [d, null],null,[], undefined);
+    addToDO(loginUser, title, null, 'Pending', true, 0, [d, null],null,[], undefined);
     // calendarApi.unselect();
     if (title !== '') {
       calendarApi.addEvent({
