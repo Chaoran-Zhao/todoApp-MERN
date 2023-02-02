@@ -11,13 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLogout } from "../../state/index";
 import LogoutIcon from '@mui/icons-material/Logout';
 import Badge from '@mui/material/Badge';
-import Notifications from "react-notifications-menu";
 import { useState, useEffect } from "react";
-import bell1 from "../../assets/bell1.png";
-import bell2 from "../../assets/bell2.png"
 import axios from 'axios'
 import {convertUTCDateToLocalDate, differenceInDays} from '../../utilis/helper'
-
+import { DownOutlined } from '@ant-design/icons';
+import { Dropdown, message, Space } from 'antd';
 
 const Topbar = () => {
   const theme = useTheme();
@@ -34,19 +32,26 @@ const Topbar = () => {
     dispatch(setLogout())
     navigate('/')
   }
+  const items2 = [
+  {
+    label: '1st menu item',
+    key: '1',
+  },
+  {
+    label: '2nd menu item',
+    key: '2',
+  },
+  {
+    label: '3rd menu item',
+    key: '3',
+  },
+];
 
-  // const DEFAULT_NOTIFICATION = {
-  //   image:
-  //     "https://cutshort-data.s3.amazonaws.com/cloudfront/public/companies/5809d1d8af3059ed5b346ed1/logo-1615367026425-logo-v6.png",
-  //   message: "Notification one.",
-  //   detailPage: "/alltodos",
-  // };
+  const onClick = ({ key }) => {
+    navigate('/today');
+  };
 
-
-  const [data, setData] = useState([]);
-  const [message, setMessage] = useState("");
-
-
+  const [data, setData] = useState([])
 
 
   const  baseurl = "http://localhost:5000"
@@ -75,6 +80,7 @@ const Topbar = () => {
             }
         });
 
+
         let userTodos = [];
         today_data.forEach(e => {
           if (e.userName === loginUser && e.status === 'Pending' && e.notification ===true)  {
@@ -90,22 +96,18 @@ const Topbar = () => {
           }
         });
         console.log('data-->',userTodos)
+        setNotify(userTodos)
         let userNote = []
+        let keys = 0
         userTodos.forEach(element => {
           let ele = {
-            image:
-              "https://cutshort-data.s3.amazonaws.com/cloudfront/public/companies/5809d1d8af3059ed5b346ed1/logo-1615367026425-logo-v6.png",
-            message: element.text,
-            detailPage: "/alltodos",
+            label: `[${element.text}] is due in a hour!`,
+            key: keys,
           }
-          userNote.push(ele) }
+          userNote.push(ele) 
+          keys = keys + 1}
         );
-        console.log(userNote)
-        setNotify(userTodos)
-        if (userNote !== data){
-          setData(userNote)
-        }
-        
+        setData(userNote)
     })
     .catch((err) => {console.log(err);
       alert.error(`${err.message} has occurred`);})
@@ -114,12 +116,12 @@ const Topbar = () => {
   useEffect(() => {
     // Update the document title using the browser API
     todayProgression();
-  },[]);
+  });
 
 
 
   return (
-    <Box display="flex" justifyContent="flex-start" p={2}>
+    <Box display="flex" justifyContent="flex-end" p={2}>
 
       {/* ICONS */}
       <Box display="inline-flex" style={{alignItems: 'center'}}>
@@ -134,23 +136,18 @@ const Topbar = () => {
         </IconButton>
         </Tooltip>
 
-
+        <Dropdown
+          menu={{
+            items:data,onClick
+          }}
+        >
         <Tooltip title="Notification">
-        <IconButton style={{paddingTop:'14px'}}>
-          {/* <Badge badgeContent={4} color="secondary">
-            <NotificationsOutlinedIcon onClick={onClick}/>
-          </Badge> */}
-          <Notifications
-            data={data}
-            header={{
-              title: "Notifications for Todos due in an hour",
-              option: {text: '',onClick: ()=>{}}
-            }}
-            cardOption = {false}
-            
-            icon={theme.palette.mode === "dark" ? bell1 : bell2}
-        />
-        </IconButton></Tooltip>
+        <IconButton >
+          <Badge badgeContent={notify.length} color="secondary">
+            <NotificationsOutlinedIcon/>
+          </Badge>
+
+        </IconButton></Tooltip></Dropdown>
 
         <Tooltip title="Logout">
         <IconButton onClick={Logout}>
@@ -158,6 +155,9 @@ const Topbar = () => {
         </IconButton>
         </Tooltip>
       </Box>
+
+
+       
 
       
     </Box>
