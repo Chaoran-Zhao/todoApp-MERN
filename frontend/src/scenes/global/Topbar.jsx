@@ -32,20 +32,6 @@ const Topbar = () => {
     dispatch(setLogout())
     navigate('/')
   }
-  const items2 = [
-  {
-    label: '1st menu item',
-    key: '1',
-  },
-  {
-    label: '2nd menu item',
-    key: '2',
-  },
-  {
-    label: '3rd menu item',
-    key: '3',
-  },
-];
 
   const onClick = ({ key }) => {
     navigate('/today');
@@ -54,7 +40,7 @@ const Topbar = () => {
   const [data, setData] = useState([])
 
 
-  const  baseurl = "http://localhost:5000"
+  const  baseurl = "https://todoapp-backend-new.onrender.com"
 
   const [notify, setNotify] = useState(0)
 
@@ -110,7 +96,7 @@ const Topbar = () => {
         setData(userNote)
     })
     .catch((err) => {console.log(err);
-      alert.error(`${err.message} has occurred`);})
+      alert(`${err.message} has occurred`);})
   }
 
   useEffect(() => {

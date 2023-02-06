@@ -27,7 +27,7 @@ const Register = () => {
     }
     const Valid = checkValid();
     if (Valid === false){
-      const response = await fetch('http://localhost:5000/auth/register', {
+      const response = await fetch('https://todoapp-backend-new.onrender.com/auth/register', {
         method: 'post',
         body
       })

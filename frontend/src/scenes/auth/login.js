@@ -18,7 +18,7 @@ const Login = () => {
   const handleSubmit = async() => {
     const Valid = checkValid();
     if (Valid === false){
-      const response = await fetch('http://localhost:5000/auth/login', {
+      const response = await fetch('https://todoapp-backend-new.onrender.com/auth/login', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body:JSON.stringify({

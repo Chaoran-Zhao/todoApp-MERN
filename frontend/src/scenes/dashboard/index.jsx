@@ -1,17 +1,9 @@
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
-import LineChart from "../../components/LineChart";
-import GeographyChart from "../../components/GeographyChart";
-import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
-import ProgressCircle from "../../components/ProgressCircle";
-import AddTaskIcon from '@mui/icons-material/AddTask';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
-import AssignmentIcon from '@mui/icons-material/Assignment'
-import { getAllToDo, getTodayToDo } from "../../utilis/handleapi";
 import axios from 'axios'
 import {convertUTCDateToLocalDate} from '../../utilis/helper'
 import { useDispatch, useSelector } from "react-redux";
@@ -29,7 +21,7 @@ const Dashboard = () => {
   const [totalUndo, setTotalUndo] = useState(0)
   const [todoToday, setTodoToday] = useState([])
 
-  const  baseurl = "http://localhost:5000"
+  const  baseurl = "https://todoapp-backend-new.onrender.com"
 
   // today progression
   // total = undo + done

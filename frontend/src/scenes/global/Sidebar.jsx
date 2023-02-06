@@ -49,7 +49,7 @@ const Sidebar = () => {
 
   const getUserImg = async () => {
     console.log(loginUser)
-    const response = await fetch(`http://localhost:5000/auth/${loginUser}`, {
+    const response = await fetch(`https://todoapp-backend-new.onrender.com/auth/${loginUser}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -117,7 +117,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`http://localhost:5000/${profile}`}
+                  src={`https://todoapp-backend-new.onrender.com/${profile}`}
 
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                   // onClick={getUserImg}

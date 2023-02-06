@@ -1,11 +1,12 @@
 // const express = require('express')
 // const mongoose = require('mongoose')
 // const cors = require("cors")
+import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import multer from "multer";
-import dotenv from "dotenv";
+
 import bodyParser from "body-parser";
 
 import { fileURLToPath } from "url";
@@ -18,18 +19,23 @@ import path from "path";
 // const UserRoutes = require('./routes/UserRoute')
 
 // require('dotenv').config()
-dotenv.config();
+// dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.join(__dirname, '.env') });
 const app = express()
 const Port = process.env.port || 5000
-const __filename = fileURLToPath(import.meta.url);
 
-const __dirname = path.dirname(__filename);
 app.use(express.json())
 
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({extended: true}))
-app.use(cors())
+app.use(cors({
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+}
+))
 app.use("/public/assets", express.static(path.join(__dirname, "public/assets")));
 
 
@@ -37,11 +43,16 @@ app.listen(Port,()=>{
     console.log(`Listening on : ${Port}`)
 })
 
+// const url = process.env.MONGOdB_URL
+
+const url = "mongodb+srv://Chaoran_Zhao:00000Zcr@cluster0.4g6epy0.mongodb.net/ToDoApp?retryWrites=true&w=majority&ssl=true"
+mongoose.set('strictQuery',true)
 
 mongoose
-    .connect(process.env.MONGODB_URL, {
+    .connect("mongodb+srv://Chaoran_Zhao:00000Zcr@cluster0.4g6epy0.mongodb.net/ToDoApp?retryWrites=true&w=majority&ssl=true", 
+    {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
+      useUnifiedTopology: true, 
     })
     .then(()=>console.log('Connected to MongoDb'))
     .catch((err)=>console.log(err,'error occur'))

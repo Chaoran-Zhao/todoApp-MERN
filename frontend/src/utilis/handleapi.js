@@ -10,7 +10,9 @@ function convertUTCDateToLocalDate(date) {
 
 
 
-const  baseurl = "http://localhost:5000"
+// const  baseurl = "http://localhost:5000"
+
+const  baseurl = "https://todoapp-backend-new.onrender.com"
 
 const getAllToDo = (setToDo,loginUser) => {
     axios
