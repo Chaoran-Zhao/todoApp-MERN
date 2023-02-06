@@ -9,6 +9,7 @@ import {convertUTCDateToLocalDate} from '../../utilis/helper'
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
+import { baseurl } from "../../utilis/config";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -21,7 +22,7 @@ const Dashboard = () => {
   const [totalUndo, setTotalUndo] = useState(0)
   const [todoToday, setTodoToday] = useState([])
 
-  const  baseurl = "https://todoapp-backend-new.onrender.com"
+  // const  baseurl = "https://todoapp-backend-new.onrender.com"
 
   // today progression
   // total = undo + done
@@ -74,6 +75,8 @@ const Dashboard = () => {
         console.log('data-->',userTodos)
         setTodayTotal(todayTotal);
         setTodayUndo(todayUndo);
+        userTodos.sort((a, b) => (b.emergency-a.emergency));
+        setTodoToday(userTodos)
         console.log('total',todayTotal, 'Undo',todayTotal)
     })
     .catch((err) => {console.log(err);
@@ -113,8 +116,6 @@ const Dashboard = () => {
         console.log('data-->',userTodos)
         setTotalTotal(totalTotal );
         setTotalUndo(totalUndo);
-        userTodos.sort((a, b) => (b.emergency-a.emergency));
-        setTodoToday(userTodos)
         console.log(userTodos)
     })
     .catch((err) => {console.log(err);

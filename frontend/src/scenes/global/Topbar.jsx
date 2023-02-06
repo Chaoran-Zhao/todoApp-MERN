@@ -16,6 +16,7 @@ import axios from 'axios'
 import {convertUTCDateToLocalDate, differenceInDays} from '../../utilis/helper'
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, message, Space } from 'antd';
+import { baseurl } from "../../utilis/config";
 
 const Topbar = () => {
   const theme = useTheme();
@@ -40,7 +41,7 @@ const Topbar = () => {
   const [data, setData] = useState([])
 
 
-  const  baseurl = "https://todoapp-backend-new.onrender.com"
+  // const  baseurl = "https://todoapp-backend-new.onrender.com"
 
   const [notify, setNotify] = useState(0)
 
@@ -81,7 +82,6 @@ const Topbar = () => {
             }
           }
         });
-        console.log('data-->',userTodos)
         setNotify(userTodos)
         let userNote = []
         let keys = 0

@@ -12,7 +12,7 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { useDispatch, useSelector } from "react-redux";
-
+import { baseurl } from "../../utilis/config";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -49,13 +49,12 @@ const Sidebar = () => {
 
   const getUserImg = async () => {
     console.log(loginUser)
-    const response = await fetch(`https://todoapp-backend-new.onrender.com/auth/${loginUser}`, {
+    const response = await fetch(`${baseurl}/auth/${loginUser}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
     setProfile(data.profileImg)
-    console.log(data)
   };
 
   useEffect(() => {
@@ -117,7 +116,8 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`https://todoapp-backend-new.onrender.com/${profile}`}
+                  // src={`${baseurl}/${profile}`}
+                  src={profile}
 
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                   // onClick={getUserImg}

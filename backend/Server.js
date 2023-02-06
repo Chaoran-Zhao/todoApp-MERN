@@ -43,13 +43,11 @@ app.listen(Port,()=>{
     console.log(`Listening on : ${Port}`)
 })
 
-// const url = process.env.MONGOdB_URL
-
-const url = "mongodb+srv://Chaoran_Zhao:00000Zcr@cluster0.4g6epy0.mongodb.net/ToDoApp?retryWrites=true&w=majority&ssl=true"
+const url = process.env.MONGOdB_URL
 mongoose.set('strictQuery',true)
 
 mongoose
-    .connect("mongodb+srv://Chaoran_Zhao:00000Zcr@cluster0.4g6epy0.mongodb.net/ToDoApp?retryWrites=true&w=majority&ssl=true", 
+    .connect(url, 
     {
       useNewUrlParser: true,
       useUnifiedTopology: true, 

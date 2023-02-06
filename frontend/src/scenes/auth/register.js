@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import "./style.css"
 import { useDispatch, useSelector } from "react-redux";
 import { setLogout } from "../../state/index";
+import { fileToDataUrl } from '../../utilis/helper';
+import { baseurl } from '../../utilis/config';
+
 
 const Register = () => {
   
@@ -21,13 +24,19 @@ const Register = () => {
     body.append('userName', name)
     body.append('password', password)
     const file = document.getElementById('registerImg').files[0]
-    body.append('picture', file)
+
+    // store image as url
+    const fileurl = await fileToDataUrl(file);
+    // console.log(fileurl)
+
+    // body.append('picture', file)
+    body.append('picture', fileurl)
     for (var data of body) {
       console.log(data);
     }
     const Valid = checkValid();
     if (Valid === false){
-      const response = await fetch('https://todoapp-backend-new.onrender.com/auth/register', {
+      const response = await fetch(`${baseurl}/auth/register`, {
         method: 'post',
         body
       })

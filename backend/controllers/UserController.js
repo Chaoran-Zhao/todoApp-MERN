@@ -13,9 +13,9 @@ export const Register = async(req,res) => {
   let saveImg = new UserModel ({
     userName: req.body.userName,
     password: passwordHash,
-    profileImg: req.file.path,
+    // profileImg: req.file.path,
+    profileImg: req.body.picture
   })
-
   saveImg
     .save()
     .then(() => {
@@ -34,7 +34,7 @@ export const Login  = async(req,res) => {
     const { userName, password } = req.body;
     
     const user = await UserModel.findOne({userName: userName});
-    console.log(user)
+    // console.log(user)
     // user not exist
     if (!user) {
       res.status(500).json("User does not exist. ")

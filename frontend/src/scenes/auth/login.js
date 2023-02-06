@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./style.css"
 import { useDispatch } from "react-redux";
 import { setLogin, setLogout } from "../../state/index";
+import { baseurl } from '../../utilis/config';
 
 const Login = () => {
   
@@ -18,7 +19,7 @@ const Login = () => {
   const handleSubmit = async() => {
     const Valid = checkValid();
     if (Valid === false){
-      const response = await fetch('https://todoapp-backend-new.onrender.com/auth/login', {
+      const response = await fetch(`${baseurl}/auth/login`, {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body:JSON.stringify({

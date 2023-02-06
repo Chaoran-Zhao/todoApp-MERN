@@ -29,6 +29,8 @@ import { getAllToDo } from "../../utilis/handleapi";
 import axios from 'axios'
 import {convertUTCDateToLocalDate} from '../../utilis/helper'
 import ICalendarLink from "react-icalendar-link";
+import { baseurl } from "../../utilis/config";
+
 
 const Calendar = () => {
   const theme = useTheme();
@@ -95,7 +97,7 @@ const Calendar = () => {
   };
   
 
-  const  baseurl = "https://todoapp-backend-new.onrender.com"
+  // const  baseurl = "https://todoapp-backend-new.onrender.com"
 
 
   async function handleDateSet(){
@@ -147,13 +149,7 @@ const Calendar = () => {
   const handleCloseics = () => {
     setOpenics(false);
   };
-  const event = {
-      title: "My Title",
-      description: "My Description",
-      startTime: "2023-01-31T10:30:00+10:00",
-      endTime: "2023-01-31T12:00:00+10:00",
-      location: "10 Carlotta St, Artarmon NSW 2064, Australia",
-  }
+
   
   return (
     <Box m="20px">

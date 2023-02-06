@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { message } from 'antd';
 import 'antd/dist/reset.css';
+import { baseurl } from './config';
 
 // helper function
 function convertUTCDateToLocalDate(date) {
@@ -12,7 +13,7 @@ function convertUTCDateToLocalDate(date) {
 
 // const  baseurl = "http://localhost:5000"
 
-const  baseurl = "https://todoapp-backend-new.onrender.com"
+// const  baseurl = "https://todoapp-backend-new.onrender.com"
 
 const getAllToDo = (setToDo,loginUser) => {
     axios
